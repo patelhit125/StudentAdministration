@@ -16,4 +16,4 @@ router.put("/edit", v.validate(StudentEditDto), Middleware.auth, studentControll
 router.get("/get-profile", Middleware.auth, studentController.getProfile)
 router.delete("/delete", Middleware.auth, studentController.deleteAcc)
 
-export const studentRouter: Router = router
+export const studentRoutes: Router = router

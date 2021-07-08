@@ -37,11 +37,9 @@ export class DB{
         this.sequelize.authenticate()
             .then(() => {
                 console.log("DB connection established successfully")
-            })
-            .catch((err) => {
+                this.sequelize.sync()
+            }).catch((err) => {
                 console.log(`Failed to set up connection with DB\n: ${err}`)
             })
-        
-        this.sequelize.sync()
     }
 }

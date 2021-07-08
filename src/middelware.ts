@@ -3,6 +3,17 @@ import { Jwt } from './helper/jwt.helper';
 import student from './models/student.model';
 
 export class Middleware{
+
+    public static pagination(req: Request, res: Response, next: () => void ) {
+        const { page, limit } = req.query as any
+        req.pager = {
+            page: +page,
+            limit: +limit
+        }
+
+        next()
+    }
+
     public static auth = async (req: Request, res: Response, next: () => void) => {
         
         //  Check header for token
