@@ -1,5 +1,5 @@
 interface Student{
-    id: number,
+    enrollmentNo: bigint,
     email: string, 
     mobileNo: string
 }

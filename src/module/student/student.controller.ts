@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import student  from '../../models/student.model';
 import department from '../../models/department.model';
-import course from '../../models/course.model';
 import { StudentRegisterDto } from './dto/student-register.dto';
 import { Crypter } from '../../helper/Crypt.helper';
 import { Jwt } from '../../helper/jwt.helper'
@@ -11,8 +10,8 @@ import { StudentEditDto } from './dto/student-edit.dto';
 export class StudentController{
 
     public async register(req: Request, res: Response){
-        const {firstName, lastName, semester, email, 
-                password, branch, mobileNo} = req.dto as StudentRegisterDto
+        const {enrollmentNo, firstName, lastName, semester, dob, gender, 
+            email, password, branch, mobileNo} = req.dto as StudentRegisterDto
         
         const _dept = await department.findOne({
             attributes: ["id"],
@@ -24,9 +23,12 @@ export class StudentController{
         const cryptPass = await Crypter.encrypt(password)
 
         const _student = await student.create({
+            enrollmentNo,
             firstName: firstName,
             lastName: lastName,
             semester: semester,
+            dob,
+            gender,
             email: email.trim(),
             password: cryptPass,
             mobileNo: mobileNo,
@@ -35,7 +37,7 @@ export class StudentController{
         }) as any
 
         if(_student) {
-            const jwtToken = Jwt.encode(_student.id)
+            const jwtToken = Jwt.encode(_student.enrollmentNo)
             res.status(200).json({
                 "success": true,
                 "token": jwtToken
@@ -49,18 +51,18 @@ export class StudentController{
     }
 
     public async login(req: Request, res: Response) {
-        const { email, password } = req.dto as StudentLoginDto
+        const { enrollmentNo, password } = req.dto as StudentLoginDto
 
         const _student = await student.findOne({
-            attributes: ["id", "email", "password", "mobileNo"],
+            attributes: ["email", "password", "mobileNo"],
             where: {
-                email: email.trim()
+                enrollmentNo
             }
         }) as any
 
         if(_student) {
             if(Crypter.compare(password, _student.password)){
-                const token = Jwt.encode(_student.id)
+                const token = Jwt.encode(enrollmentNo)
 
                 res.status(200).json({
                     "success": true,
@@ -81,10 +83,11 @@ export class StudentController{
     }
 
     public async edit(req: Request, res: Response) {
-        const { firstName, lastName, semester, 
+        
+        const {firstName, lastName, semester, 
             email, mobileNo, branch } = req.dto as StudentEditDto
         
-        const { id } = req.me
+        const { enrollmentNo } = req.me
 
         const _dept = await department.findOne({
             attributes: ["id"],
@@ -103,11 +106,12 @@ export class StudentController{
             departmentId: _dept.id
         },{ 
             where: {
-                id: id
+                enrollmentNo
             }
-        })
+        }) as any
 
         if(_student) {
+
             res.status(200).json({
                 "success": true,
                 "message": "Student Information modified successfully"

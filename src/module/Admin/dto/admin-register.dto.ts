@@ -1,6 +1,5 @@
 import { IsNotEmpty, MaxLength, MinLength, IsEmail, Validate} from 'class-validator';
 import { PasswordValidation, PasswordValidationRequirement } from 'class-validator-password-check/lib';
-import { IfStudentAlreadyExists } from '../validator/if-student-already-exists.validate';
 
 const passwordRequirement: PasswordValidationRequirement = {
     mustContainLowerLetter: true,
@@ -9,13 +8,7 @@ const passwordRequirement: PasswordValidationRequirement = {
     mustContainUpperLetter: true
 }
 
-export class StudentRegisterDto{
-
-    @MaxLength(12)
-    @MinLength(12)
-    @IsNotEmpty()
-    public enrollmentNo: string
-
+export class AdminRegisterDto{
     @MaxLength(50)
     @IsNotEmpty()
     public firstName: string
@@ -24,18 +17,8 @@ export class StudentRegisterDto{
     @IsNotEmpty()
     public lastName: string
 
-    @IsNotEmpty()
-    public semester: string
-
-    @IsNotEmpty()
-    public dob: string
-
-    @IsNotEmpty()
-    public gender: string
-
     @IsEmail()
     @IsNotEmpty()
-    @IfStudentAlreadyExists()
     public email: string
 
     @Validate(PasswordValidation, [passwordRequirement])
@@ -48,7 +31,4 @@ export class StudentRegisterDto{
     @MinLength(10)
     @IsNotEmpty()
     public mobileNo: string
-
-    @IsNotEmpty()
-    public branch: string
 }

@@ -9,11 +9,11 @@ import student from '../../../models/student.model';
 
 @ValidatorConstraint({ async: true })
 export class CheckStudentExistsConstraint implements ValidatorConstraintInterface{
-    public validate(email: string){
+    public validate(enrollmentNo: string){
         return student.findOne({
-            attributes: ["id"],
+            attributes: ["email"],
             where: {
-                email: email.trim()
+                enrollmentNo
             }
         }).then((_student) => {
             if(_student) return true
@@ -22,7 +22,7 @@ export class CheckStudentExistsConstraint implements ValidatorConstraintInterfac
     }
 
     public defaultMessage(){
-        return "No student with $value exists."
+        return "No student with Enrollment Number $value exists."
     }
 }
 

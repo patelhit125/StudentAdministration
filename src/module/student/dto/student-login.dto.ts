@@ -1,12 +1,13 @@
-import { IsNotEmpty, IsEmail } from 'class-validator';
+import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 import { CheckStudentExists } from '../validator/check-student-exists.validate';
 
 export class StudentLoginDto{
 
+    @MaxLength(12)
+    @MinLength(12)
     @IsNotEmpty()
-    @IsEmail()
     @CheckStudentExists()
-    public email: string
+    public enrollmentNo: string
 
     @IsNotEmpty()
     public password: string

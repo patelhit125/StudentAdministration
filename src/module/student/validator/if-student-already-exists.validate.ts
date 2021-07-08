@@ -11,7 +11,7 @@ import student from '../../../models/student.model';
 export class IfStudentAlreadyExistsConstriant implements ValidatorConstraintInterface{
     public validate(email: string){
         return student.findOne({
-            attributes: ["id"],
+            attributes: ["enrollmentNo"],
             where: {
                 email: email.trim()
             }

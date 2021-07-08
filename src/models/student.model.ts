@@ -4,10 +4,9 @@ import { DB } from '../configs/DB';
 const sequelize = DB.sq()
 
 const student = sequelize.define('student', {
-    id: {
-        type: DataTypes.INTEGER,
+    enrollmentNo: {
+        type: DataTypes.BIGINT,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true
     },
     firstName: {
@@ -20,6 +19,14 @@ const student = sequelize.define('student', {
     },
     semester: {
         type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    dob: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    gender: {
+        type: DataTypes.STRING,
         allowNull: false
     },
     email: {

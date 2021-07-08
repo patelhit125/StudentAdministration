@@ -11,9 +11,9 @@ export class Middleware{
     
             if(tokenInfo){
                 const _student = await student.findOne({
-                    attributes: ["id", "email", "mobileNo"],
+                    attributes: ["enrollmentNo", "email", "mobileNo"],
                     where: {
-                        id: tokenInfo
+                        enrollmentNo: tokenInfo
                     },
                     raw: true
                 }) as any
