@@ -32,6 +32,9 @@ class Env{
     @IsNotEmpty()
     public jwtSecret: string
 
+    @IsNotEmpty()
+    public corsDomain: string
+
 }
 
 const env = new Env()
@@ -46,4 +49,6 @@ env.port = +(process.env.PORT)
 env.nodeEnv = process.env.NODE_ENV
 
 env.jwtSecret = process.env.JWT_SECRET
+
+env.corsDomain = process.env.CORS_DOMAIN
 export default env
