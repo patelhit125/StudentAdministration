@@ -61,7 +61,8 @@ export class StudentController{
         }) as any
 
         if(_student) {
-            if(Crypter.compare(password, _student.password)){
+            const compare = await Crypter.compare(password, _student.password)
+            if(compare){
                 const token = Jwt.encode(enrollmentNo)
 
                 res.status(200).json({
@@ -120,14 +121,14 @@ export class StudentController{
     }
 
     public async getProfile(req: Request, res: Response){
-        const { id } = req.me 
+        const { enrollmentNo } = req.me 
 
         const _student = await student.findOne({
             attributes: {
                 exclude: ["password", "departmentId"]
             }, 
             where: {
-                id: id
+                enrollmentNo,
             },
             include: [{
                 model: department,

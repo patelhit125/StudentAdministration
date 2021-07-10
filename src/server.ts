@@ -15,7 +15,8 @@ export class App{
         this.app = express()
         
         Cors.enable(this.app)
-        this.app.use(urlencoded({ extended:true }))
+        this.app.use(urlencoded({ extended: true })) // parse application/x-www-form-urlencoded
+
         this.app.use(helmet())
         this.app.use(morgan("tiny"))
         
