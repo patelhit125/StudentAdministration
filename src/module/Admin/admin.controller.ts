@@ -47,8 +47,8 @@ export class AdminController{
         }) as any
 
         if(_admin) {
-            if(Crypter.compare(password, _admin.password)){
-
+            const isPassValid = await Crypter.compare(password, _admin.password)
+            if(isPassValid){
                 const token = Jwt.encode(_admin.id)
 
                 res.status(200).json({
