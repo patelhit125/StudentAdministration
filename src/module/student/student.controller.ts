@@ -152,11 +152,11 @@ export class StudentController{
     }
 
     public async deleteAcc(req: Request, res: Response) {
-        const { id } = req.me
+        const { enrollmentNo } = req.me
 
         const _validation = await student.destroy({
             where: {
-                id: id
+                enrollmentNo
             }
         })
 
